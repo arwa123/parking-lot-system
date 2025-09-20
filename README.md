@@ -14,11 +14,13 @@ Implements a Parking Lot Management System with Google OAuth2 login, JPA/H2, pri
 
 ## Build & Run
 ```bash
-./mvnw spring-boot:run
 # Or with Maven installed:
+mvn clean install
 mvn spring-boot:run
 ```
-Then sign in with Google at `/oauth2/authorization/google` (provide `GOOGLE_CLIENT_ID/SECRET` as env vars).
+Then sign in with Google at `/oauth2/authorization/google` (provide `GOOGLE_CLIENT_ID/SECRET` in application.yml and optionally if required to add truststore.jks at src/main/resources).
+Get Bearer token from `/me` endpoint.
+User the bearer token in postman authorization.
 
 H2 console: `/h2-console` (JDBC URL: `jdbc:h2:mem:parkingdb`)
 
@@ -48,7 +50,7 @@ H2 console: `/h2-console` (JDBC URL: `jdbc:h2:mem:parkingdb`)
 - Payment (`/pay`) wraps payment + freeing slot + closing ticket in **one transaction**; if payment fails, the slot remains occupied.
 
 ## Roles
-- All authenticated users have `ROLE_USER`. Assign `ROLE_ADMIN` via your IdP or extend `SecurityConfig` to map by email domain.
+- All authenticated users have `ROLE_USER`. Assign `ROLE_ADMIN` via `SecurityConfig` to map by email domain.
 
 ## Tests
 - Basic `PricingServiceTest` included.

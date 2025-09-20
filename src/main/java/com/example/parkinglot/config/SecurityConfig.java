@@ -12,6 +12,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+
+import java.util.List;
 
 @Configuration
 @EnableMethodSecurity
@@ -28,8 +32,21 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(Customizer.withDefaults())
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
         return http.build();
+    }
+
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+        converter.setJwtGrantedAuthoritiesConverter(jwt -> {
+            String email = jwt.getClaimAsString("email");
+            if (email != null && email.startsWith("arwa")) {
+                return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            }
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        });
+        return converter;
     }
 
     // Maps "roles" claim from Google (if any) or fallback: all users get ROLE_USER
