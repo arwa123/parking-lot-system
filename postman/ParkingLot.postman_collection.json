@@ -1,0 +1,80 @@
+{
+  "info": {
+    "name": "Parking Lot System",
+    "_postman_id": "c5e2e2b2-7d9d-4c3a-a5a9-9d2e2c9a9d22",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Entry",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/tickets/entry",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"plateNo\":\"KA01AB1234\",\"type\":\"CAR\",\"entryGateId\":1}"
+        }
+      }
+    },
+    {
+      "name": "Exit",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/tickets/exit",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"ticketId\": 1}"
+        }
+      }
+    },
+    {
+      "name": "Pay",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/payments/pay",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"ticketId\": 1, \"paymentMethod\": \"CARD\"}"
+        }
+      }
+    },
+    {
+      "name": "List Pricing (ADMIN)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/admin/pricing"
+      }
+    },
+    {
+      "name": "Upsert Pricing (ADMIN)",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/admin/pricing?type=CAR&freeMinutes=15&hourlyRate=60"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
+}

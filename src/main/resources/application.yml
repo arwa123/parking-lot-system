@@ -1,0 +1,48 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:parkingdb;DB_CLOSE_DELAY=-1
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  h2:
+    console:
+      enabled: true
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://accounts.google.com
+      client:
+        registration:
+          google:
+            client-id:
+            client-secret:
+            scope:
+              - openid
+              - profile
+              - email
+        provider:
+          google:
+            user-name-attribute: sub
+            token-uri: https://oauth2.googleapis.com/token
+
+
+logging:
+  level:
+    org.hibernate.SQL: warn
+
+server:
+  ssl:
+    trust-store: /Users/asaify/Documents/my-workspace/parking-lot-system/src/main/resources/truststore.jks
+    trust-store-password: changeit
+    enabled: false
