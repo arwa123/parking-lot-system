@@ -1,21 +1,20 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:parkingdb;DB_CLOSE_DELAY=-1
-    driverClassName: org.h2.Driver
-    username: sa
-    password: password
+    url: jdbc:mysql://localhost:3306/parkingdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     defer-datasource-initialization: true
+    show-sql: true
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
         naming:
           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-  h2:
-    console:
-      enabled: true
 
   security:
     oauth2:

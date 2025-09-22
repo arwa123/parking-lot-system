@@ -13,7 +13,7 @@ public class TicketController {
 
     @PostMapping("/entry")
     public EntryResponse enter(@RequestBody EntryRequest req, @AuthenticationPrincipal OAuth2User user) {
-        String ownerId = user != null ? user.getName() : "ANON";
+        String ownerId = user != null ? user.getName() : "ARWA";
         return ticketService.enter(req, ownerId);
     }
 

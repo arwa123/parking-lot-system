@@ -8,10 +8,12 @@ import com.example.parkinglot.enums.*;
 import com.example.parkinglot.repository.*;
 import com.example.parkinglot.service.strategy.SlotAllocationStrategy;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 
+@Slf4j
 @Service @RequiredArgsConstructor
 public class TicketService {
     private final VehicleRepository vehicleRepo;
@@ -50,7 +52,7 @@ public class TicketService {
                 .status(TicketStatus.ACTIVE)
                 .build();
         ticketRepo.save(ticket);
-
+        log.debug("Ticket created is : {}", ticket);
         return new EntryResponse(ticket.getId(), slot.getSlotNumber(), "Ticket created");
     }
 
@@ -63,7 +65,7 @@ public class TicketService {
         }
         ticket.setExitTime(LocalDateTime.now());
         ticketRepo.save(ticket);
-
+        log.debug("Ticket updated is : {}", ticket);
         return new ExitResponse(
                 ticket.getId(),
                 ticket.getVehicle().getPlateNo(),
